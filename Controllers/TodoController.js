@@ -51,7 +51,7 @@ TodoRouter.post("/createTodo", async (req, res) => {
 
 TodoRouter.get("/getAllTodo", async (req, res) => {
   const userId = req.session.user.userId;
-  console.log(req.session);
+  // console.log(req.session);
 
   try {
     const todos = await getAllTodo({ userId });

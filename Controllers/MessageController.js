@@ -13,16 +13,18 @@ MessageRouter.post("/send-message", async (req, res) => {
     //Validation of message
     validateMessage({ senderId, receiverId, message });
 
+    // console.log(senderId, receiverId);
+
     //Validating users
     await CheckIfUserExist({ userId: senderId });
     await CheckIfUserExist({ userId: receiverId });
 
     // return res.status(200).json("messageObject");
-    SendMessage({
-      senderId,
-      receiverId,
-      message,
-    });
+    // await SendMessage({
+    //   senderId,
+    //   receiverId,
+    //   message,
+    // });
 
     return res.status(200).json("Message sent");
   } catch (error) {

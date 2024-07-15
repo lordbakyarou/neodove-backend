@@ -66,7 +66,7 @@ const editTodo = ({ todoId, updatedTodo }) => {
       }
 
       await todo.save();
-      console.log(todo);
+      // console.log(todo);
 
       res({ message: todo, status: 200 });
     } catch (error) {

@@ -46,7 +46,7 @@ const GetMessages = ({ sid, rid }) => {
           },
         },
         {
-          $sort: { createdAt: -1 },
+          $sort: { createdAt: 1 },
         },
         {
           $lookup: {
