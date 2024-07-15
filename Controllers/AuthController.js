@@ -12,6 +12,7 @@ const {
   FindUserWithLoginId,
 } = require("../Models/UserModel");
 const isAuth = require("../Middlewares/isAuthMiddleware");
+const UserSchema = require("../Schema/UserSchema");
 
 //Router
 const AuthRouter = express.Router();
@@ -83,6 +84,16 @@ AuthRouter.get("/logout", isAuth, (req, res) => {
 
 AuthRouter.get("/check", isAuth, (req, res) => {
   return res.send("working fine");
+});
+
+AuthRouter.get("/all-users", async (req, res) => {
+  try {
+    const users = await UserSchema.find().select("-password");
+    return res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
 });
 
 module.exports = AuthRouter;

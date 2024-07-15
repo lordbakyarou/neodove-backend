@@ -3,6 +3,7 @@ const { CheckIfUserExist } = require("../Models/UserModel");
 const MessageSchema = require("../Schema/MessageSchema");
 const { validateMessage } = require("../Utils/MessageUtils");
 const { SendMessage, GetMessages } = require("../Models/MessageModel");
+const UserSchema = require("../Schema/UserSchema");
 
 const MessageRouter = express.Router();
 
