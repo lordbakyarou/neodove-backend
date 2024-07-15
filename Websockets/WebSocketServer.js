@@ -8,25 +8,31 @@ function createWebSocketServer(server) {
 
   wss.on("connection", function connection(ws, req) {
     const userId = req.url.split("/?userId=")[1]; // Implement this function based on your auth strategy
-
+    console.log("new connection was made by ", userId);
     // Add user to clients map
-    clients.set(userId, ws);
 
-    ws.on("message", function incoming(message) {
-      const parsedMessage = JSON.parse(message);
-      const { type, recipientId, text } = parsedMessage;
+    if (userId) {
+      clients.set(userId, ws);
 
-      if (type === "private_message" && recipientId && text) {
-        const recipientWs = clients.get(recipientId);
-        if (recipientWs && recipientWs.readyState === WebSocket.OPEN) {
-          recipientWs.send(JSON.stringify({ senderId: userId, text }));
+      ws.on("message", function incoming(message) {
+        const parsedMessage = JSON.parse(message);
+        const { type, recipientId, text } = parsedMessage;
+        console.log(userId, recipientId, text);
+
+        if (type === "private_message" && recipientId && text) {
+          const recipientWs = clients.get(recipientId);
+          if (recipientWs && recipientWs.readyState === WebSocket.OPEN) {
+            recipientWs.send(JSON.stringify({ senderId: userId, text }));
+          }
         }
-      }
-    });
+      });
 
-    ws.on("close", () => {
-      clients.delete(userId);
-    });
+      ws.on("close", () => {
+        clients.delete(userId);
+      });
+    } else {
+      ws.close();
+    }
   });
 
   return wss;

@@ -7,10 +7,11 @@ const WebSocket = require("ws");
 //File imports
 const db = require("./db");
 const AuthRouter = require("./Controllers/AuthController");
+const MessageRouter = require("./Controllers/MessageController");
+const TodoRouter = require("./Controllers/TodoController");
 
 //session based login
 const session = require("express-session");
-const TodoRouter = require("./Controllers/TodoController");
 const isAuth = require("./Middlewares/isAuthMiddleware");
 const createWebSocketServer = require("./Websockets/WebSocketServer");
 const mongodbsession = require("connect-mongodb-session")(session);
@@ -55,6 +56,9 @@ app.get("/check", (req, res) => {
 
 app.use("/auth", AuthRouter);
 app.use("/todo", isAuth, TodoRouter);
+app.use("/message", isAuth, MessageRouter);
+
+// app.get("/hi", (req, res) => res.send("Hi"));
 
 //websocket configuration
 createWebSocketServer(server);

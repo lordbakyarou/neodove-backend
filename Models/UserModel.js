@@ -58,14 +58,19 @@ const FindUserWithLoginId = ({ loginId }) => {
 
 const CheckIfUserExist = ({ userId }) => {
   return new Promise(async (res, rej) => {
+    console.log(userId);
     try {
       const user = await UserSchema.findOne({ _id: userId });
-      if (!user)
-        rej({ message: `User does not exist: ${userId}`, status: 404 });
+      if (!user) {
+        console.log("user");
+        rej({ message: "User does not exis", status: 404 });
+      }
+      console.log(user);
 
       res(user);
     } catch (error) {
-      rej(error);
+      console.log(error);
+      rej({ message: error, status: 500 });
     }
   });
 };
